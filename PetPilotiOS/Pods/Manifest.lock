@@ -1,0 +1,16 @@
+PODS:
+  - PetPilotShared (1.0)
+
+DEPENDENCIES:
+  - PetPilotShared (from `../PetPilotShared`)
+
+EXTERNAL SOURCES:
+  PetPilotShared:
+    :path: "../PetPilotShared"
+
+SPEC CHECKSUMS:
+  PetPilotShared: d905c84ce640bed76297f9ef5c0a8bf7264805b5
+
+PODFILE CHECKSUM: dfd6dcbb4377c4af2896629399bcc7862c40130f
+
+COCOAPODS: 1.12.0
