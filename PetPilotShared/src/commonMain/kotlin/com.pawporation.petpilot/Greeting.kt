@@ -1,4 +1,4 @@
-package com.pawpals.petpilot
+package com.pawporation.petpilot
 
 class Greeting {
     private val platform: Platform = getPlatform()

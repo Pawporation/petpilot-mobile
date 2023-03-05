@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.pawpals.petpilot.android"
+    namespace = "com.pawporation.petpilot.android"
     compileSdk = 33
     defaultConfig {
-        applicationId = "com.pawpals.petpilot.android"
+        applicationId = "com.pawporation.petpilot.android"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

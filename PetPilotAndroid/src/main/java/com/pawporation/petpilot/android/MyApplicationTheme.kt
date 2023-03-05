@@ -1,4 +1,4 @@
-package com.pawpals.petpilot.android
+package com.pawporation.petpilot.android
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape

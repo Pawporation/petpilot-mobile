@@ -1,4 +1,4 @@
-package com.pawpals.petpilot
+package com.pawporation.petpilot
 
 interface Platform {
     val name: String

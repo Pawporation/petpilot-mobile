@@ -1,4 +1,4 @@
-package com.pawpals.petpilot
+package com.pawporation.petpilot
 
 import platform.UIKit.UIDevice
 

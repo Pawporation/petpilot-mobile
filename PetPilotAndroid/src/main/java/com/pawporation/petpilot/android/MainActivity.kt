@@ -1,4 +1,4 @@
-package com.pawpals.petpilot.android
+package com.pawporation.petpilot.android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.pawpals.petpilot.Greeting
+import com.pawporation.petpilot.Greeting
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
