@@ -2,29 +2,30 @@ package com.pawporation.petpilot.android
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.MapsInitializer.Renderer
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+
+class MainActivity : AppCompatActivity(), OnMapReadyCallback, OnMapsSdkInitializedCallback {
 
     private var map: GoogleMap? = null
-    // The entry point to the Places API.
-    private lateinit var placesClient: PlacesClient
 
     // The entry point to the Fused Location Provider.
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -38,31 +39,59 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     // location retrieved by the Fused Location Provider.
     private var lastKnownLocation: Location? = null
 
+    // below are the latitude and longitude
+    // of 4 different locations.
+    var sydney = LatLng(37.414728, -122.0811)
+//    var TamWorth = LatLng(-31.083332, 150.916672)
+//    var NewCastle = LatLng(-32.916668, 151.750000)
+//    var Brisbane = LatLng(-27.470125, 153.021072)
+
+    // creating array list for adding all our locations.
+    private var locationArrayList: ArrayList<LatLng>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MapsInitializer.initialize(applicationContext, Renderer.LATEST, this)
         setContentView(R.layout.map)
 
-        var apiKey: String?
-
-        applicationContext.packageManager.getApplicationInfo(
-            applicationContext.packageName, PackageManager.GET_META_DATA).apply {
-            apiKey = metaData.getString("com.google.android.geo.API_KEY")
-        }
-
-        // Construct a PlacesClient
-        // TODO: EXCEPTION/METRIC when apiKey is null
-        Places.initialize(applicationContext, apiKey)
-        placesClient = Places.createClient(this)
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map_fragment) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
+
+        // in below line we are initializing our array list.
+        locationArrayList = ArrayList()
+
+        // on below line we are adding our
+        // locations in our array list.
+        locationArrayList!!.add(sydney)
+//        locationArrayList!!.add(TamWorth)
+//        locationArrayList!!.add(NewCastle)
+//        locationArrayList!!.add(Brisbane)
     }
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(
+            applicationContext, R.raw.map_style))
+
+        for (i in locationArrayList!!.indices) {
+
+            // below line is use to add marker to each location of our array list.
+            map.addMarker(MarkerOptions()
+                .position(locationArrayList!![i])
+                .icon(bitmapDescriptorFromVector(applicationContext,
+                    com.pawpals.petpilot.R.drawable.restaurant_18))
+                .title("title"))
+
+            // below line is use to zoom our camera on map.
+            map.animateCamera(CameraUpdateFactory.zoomTo(18.0f))
+
+            // below line is use to move our camera to the specific location.
+            map.moveCamera(CameraUpdateFactory.newLatLng(locationArrayList!![i]))
+        }
 
         // Prompt the user for permission.
         getLocationPermission()
@@ -72,6 +101,39 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
+    }
+
+    private fun bitmapDescriptorFromVector(
+        context: Context,
+        @DrawableRes vectorDrawableResourceId: Int
+    ): BitmapDescriptor? {
+        val background: Drawable? =
+            ContextCompat.getDrawable(context, com.pawpals.petpilot.R.drawable.pawprint_48)
+        background?.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
+        val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        vectorDrawable?.setBounds(
+            40,
+            65,
+            vectorDrawable.intrinsicWidth + 40,
+            vectorDrawable.intrinsicHeight + 65
+        )
+
+        val bitmap = background?.let {
+            Bitmap.createBitmap(
+                it.intrinsicWidth,
+                it.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+        }
+        val canvas = bitmap?.let { Canvas(it) }
+        if (canvas != null) {
+            background.draw(canvas)
+        }
+        if (canvas != null) {
+            vectorDrawable?.draw(canvas)
+        }
+
+        return bitmap?.let { BitmapDescriptorFactory.fromBitmap(it) }
     }
 
     @SuppressLint("MissingPermission")
@@ -179,5 +241,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Used for selecting the current place.
         private const val M_MAX_ENTRIES = 5
+    }
+
+    override fun onMapsSdkInitialized(renderer: MapsInitializer.Renderer) {
+        when (renderer) {
+            Renderer.LATEST -> Log.d("MapsDemo", "The latest version of the renderer is used.")
+            Renderer.LEGACY -> Log.d("MapsDemo", "The legacy version of the renderer is used.")
+        }
     }
 }
