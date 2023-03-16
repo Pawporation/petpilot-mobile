@@ -130,7 +130,7 @@ class MapFragment : Fragment() {
                                         lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
                         }
                     } else {
-                        Log.e("SUPPP", "Exception: %s", task.exception)
+                        Log.e("TAG", "Exception: %s", task.exception)
                         map?.moveCamera(
                             CameraUpdateFactory
                                 .newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM.toFloat()))
