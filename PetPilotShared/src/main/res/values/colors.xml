@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue_theme">#A1E5F6</color>
+    <color name="hiking">#5aa06b</color>
+    <color name="gray">#D6D4D3</color>
+    <color name="medical">#df5b4c</color>
+    <color name="stores">#9fc5e8</color>
+    <color name="events">#f6fcb8</color>
+    <color name="restaurants">#ffb2d6</color>
 </resources>
