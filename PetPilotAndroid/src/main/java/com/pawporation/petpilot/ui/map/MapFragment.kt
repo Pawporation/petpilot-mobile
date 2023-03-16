@@ -161,7 +161,7 @@ class MapFragment : Fragment() {
                 getLocationPermission()
             }
         } catch (e: SecurityException) {
-            Log.e("Exception hehe: %s", e.message, e)
+            Log.e("Exception: %s", e.message, e)
         }
     }
 
