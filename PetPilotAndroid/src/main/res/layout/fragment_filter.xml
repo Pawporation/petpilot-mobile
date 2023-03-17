@@ -12,10 +12,11 @@
     </Space>
 
     <ImageButton
+        android:id="@+id/filter_outdoors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/forest_48"
+        android:src="@drawable/outdoors_24"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/hiking"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,10 +32,11 @@
     </Space>
 
     <ImageButton
+        android:id="@+id/filter_stores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/store_48"
+        android:src="@drawable/store_24"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/stores"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,10 +52,11 @@
     </Space>
 
     <ImageButton
+        android:id="@+id/filter_restaurants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/restaurant_48"
+        android:src="@drawable/restaurant_24"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/restaurants"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,10 +72,11 @@
     </Space>
 
     <ImageButton
+        android:id="@+id/filter_clinics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/medical_services_48"
+        android:src="@drawable/medical_services_24"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/medical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,10 +92,11 @@
     </Space>
 
     <ImageButton
+        android:id="@+id/filter_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/calendar_48"
+        android:src="@drawable/calendar_24"
         android:background="@drawable/circular_button"
         android:backgroundTint="@color/events"
         app:layout_constraintBottom_toBottomOf="parent"

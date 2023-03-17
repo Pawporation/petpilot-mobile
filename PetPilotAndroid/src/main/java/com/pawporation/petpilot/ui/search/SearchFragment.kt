@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.pawporation.petpilot.android.databinding.FragmentSearchBinding
+import com.pawporation.petpilot.ui.explore.ExploreFragment
 
-class SearchFragment : Fragment() {
+class SearchFragment : ExploreFragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!

@@ -5,16 +5,21 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.pawporation.petpilot.android.R
+import com.google.android.gms.maps.model.Marker
 import com.pawporation.petpilot.android.databinding.FragmentExploreBinding
 
-class ExploreFragment : Fragment() {
+open class ExploreFragment : Fragment() {
 
     private var _binding: FragmentExploreBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    companion object {
+        @JvmStatic
+        protected var placesList = mutableListOf<Marker?>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
