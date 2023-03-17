@@ -4,26 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.pawporation.petpilot.android.databinding.FragmentFilterBinding
+import android.widget.ImageButton
+import com.pawporation.petpilot.android.R
+import com.pawporation.petpilot.ui.explore.ExploreFragment
+import com.pawporation.petpilot.ui.map.MarkerType
 
-class FilterFragment : Fragment() {
 
-    private var _binding: FragmentFilterBinding? = null
-
-    //     This property is only valid between onCreateView and
-//     onDestroyView.
-    private val binding get() = _binding!!
+class FilterFragment : ExploreFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        return inflater.inflate(R.layout.fragment_filter, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentFilterBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root;
+        val outdoorsImgButton = view.findViewById(R.id.filter_outdoors) as ImageButton
+        outdoorsImgButton.setOnClickListener(clicks)
+
+        val storesImgButton = view.findViewById(R.id.filter_stores) as ImageButton
+        storesImgButton.setOnClickListener(clicks)
+
+        val restaurantsImgButton = view.findViewById(R.id.filter_restaurants) as ImageButton
+        restaurantsImgButton.setOnClickListener(clicks)
+
+        val clinicsImgButton = view.findViewById(R.id.filter_clinics) as ImageButton
+        clinicsImgButton.setOnClickListener(clicks)
+
+        val eventsImgButton = view.findViewById(R.id.filter_events) as ImageButton
+        eventsImgButton.setOnClickListener(clicks)
+    }
+
+    private var clicks: View.OnClickListener = View.OnClickListener { view ->
+        val tag = when(view.id) {
+            R.id.filter_outdoors -> MarkerType.OUTDOOR
+            R.id.filter_stores -> MarkerType.STORE
+            R.id.filter_restaurants -> MarkerType.RESTAURANT
+            R.id.filter_clinics -> MarkerType.CLINIC
+            else -> MarkerType.EVENT
+        }
+
+        placesList.forEach {
+            if (tag == it!!.tag) it.isVisible = !it.isVisible
+        }
     }
 }

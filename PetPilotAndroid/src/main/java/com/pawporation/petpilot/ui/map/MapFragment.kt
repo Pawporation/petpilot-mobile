@@ -3,7 +3,6 @@ package com.pawporation.petpilot.ui.map
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.fragment.app.Fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -23,9 +22,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
 import com.pawporation.petpilot.android.R
+import com.pawporation.petpilot.ui.explore.ExploreFragment
 import com.pawporation.petpilot.utils.MapMarkerUtil
 
-class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
+class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
 
@@ -68,9 +68,6 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
             MapStyleOptions.loadRawResourceStyle(
                 this.requireContext(), R.raw.map_style))
 
-        // map.addMarker(MarkerOptions().position(DEFAULT_LOCATION).title("Marker in mountainView"))
-
-        // below line is use to add marker to each location of our array list.
         val marker = map.addMarker(MarkerOptions()
             .position(DEFAULT_LOCATION)
             .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
@@ -127,6 +124,14 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
             .title("Be My Mate"))
         marker6?.tag = MarkerType.RESTAURANT
 
+        placesList.add(marker)
+        placesList.add(marker1)
+        placesList.add(marker2)
+        placesList.add(marker3)
+        placesList.add(marker4)
+        placesList.add(marker5)
+        placesList.add(marker6)
+
         // Prompt the user for permission.
         getLocationPermission()
 
@@ -144,7 +149,7 @@ class MapFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
