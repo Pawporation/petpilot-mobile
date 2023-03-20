@@ -9,6 +9,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.material.textview.MaterialTextView
 import com.pawporation.petpilot.android.R
 import com.pawporation.petpilot.android.databinding.FragmentExploreBinding
+import com.pawporation.petpilot.models.CardData
+import com.pawporation.petpilot.models.MarkerType
+import com.pawporation.petpilot.models.PawRating
+import com.pawporation.petpilot.ui.details.CardDataAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 open class ExploreFragment : Fragment() {
 
@@ -40,6 +46,38 @@ open class ExploreFragment : Fragment() {
 
         val textView = view.findViewById<MaterialTextView>(R.id.explore_selection)
         textView?.setOnClickListener(selection)
+
+        val cardDataRV = view.findViewById<RecyclerView>(R.id.card_rv)
+
+        // Here, we have created new array list and added data to it
+        val cardDataList: ArrayList<CardData> = ArrayList<CardData>()
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+        cardDataList.add(CardData(MarkerType.RESTAURANT, "Cuddle Cafe",
+            PawRating.FOUR_PAW))
+
+
+        // we are initializing our adapter class and passing our arraylist to it.
+        val courseAdapter = CardDataAdapter(cardDataList)
+
+        // below line is for setting a layout manager for our recycler view.
+        // here we are creating vertical list so we will provide orientation as vertical
+        val linearLayoutManager = LinearLayoutManager(requireContext(),
+            LinearLayoutManager.HORIZONTAL, false)
+
+        // in below two lines we are setting layoutmanager and adapter to our recycler view.
+        cardDataRV?.layoutManager = linearLayoutManager
+        cardDataRV?.adapter = courseAdapter
     }
 
     override fun onDestroyView() {

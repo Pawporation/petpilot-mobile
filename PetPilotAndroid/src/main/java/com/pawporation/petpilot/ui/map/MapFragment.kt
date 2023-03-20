@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
 import com.pawporation.petpilot.android.R
+import com.pawporation.petpilot.models.MarkerType
 import com.pawporation.petpilot.ui.explore.ExploreFragment
 import com.pawporation.petpilot.utils.MapMarkerUtil
 
