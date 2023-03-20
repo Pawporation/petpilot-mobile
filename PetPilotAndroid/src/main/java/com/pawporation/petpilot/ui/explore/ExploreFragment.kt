@@ -2,7 +2,6 @@ package com.pawporation.petpilot.ui.explore
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
