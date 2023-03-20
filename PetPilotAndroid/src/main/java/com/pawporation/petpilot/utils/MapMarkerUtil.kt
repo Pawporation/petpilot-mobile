@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.pawporation.petpilot.ui.map.MarkerType
+import com.pawporation.petpilot.models.MarkerType
 
 object MapMarkerUtil {
 

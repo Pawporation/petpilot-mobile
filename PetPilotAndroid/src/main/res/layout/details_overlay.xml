@@ -5,28 +5,13 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:contentDescription="sup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:behavior_hideable="true"
-        android:orientation="vertical"
-        app:behavior_peekHeight="300dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        android:fillViewport="true">
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/card_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/layout_horizontal_diff">
-            <include layout="@layout/card_details" />
-            <include layout="@layout/card_details" />
-            <include layout="@layout/card_details" />
-            <include layout="@layout/card_details" />
-        </LinearLayout>
-
-    </HorizontalScrollView>
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="300dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
