@@ -48,8 +48,8 @@ class FilterFragment : ExploreFragment() {
             else -> MarkerType.EVENT
         }
 
-        placesList.forEach {
-            if (tag == it!!.tag) it.isVisible = !it.isVisible
+        placesMap.forEach { entry ->
+            if (tag == entry.key!!.tag) entry.key!!.isVisible = !entry.key!!.isVisible
         }
     }
 }

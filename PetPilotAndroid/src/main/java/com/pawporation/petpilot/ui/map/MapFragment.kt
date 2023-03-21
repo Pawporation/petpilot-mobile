@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -20,9 +22,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 import com.pawporation.petpilot.android.R
-import com.pawporation.petpilot.models.MarkerType
 import com.pawporation.petpilot.ui.explore.ExploreFragment
 import com.pawporation.petpilot.utils.MapMarkerUtil
 
@@ -69,69 +71,16 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
             MapStyleOptions.loadRawResourceStyle(
                 this.requireContext(), R.raw.map_style))
 
-        val marker = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.RESTAURANT,
-                com.pawpals.petpilot.R.drawable.restaurant_18))
-            .title("Cuddle Cafe with photo eventually"))
-        marker?.tag = MarkerType.RESTAURANT
-
-        val marker1 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION1)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.OUTDOOR,
-                com.pawpals.petpilot.R.drawable.outdoors_18))
-            .title("Sierra Vista Park"))
-        marker1?.tag = MarkerType.OUTDOOR
-
-        val marker2 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION2)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.STORE,
-                com.pawpals.petpilot.R.drawable.store_18))
-            .title("Famous Store"))
-        marker2?.tag = MarkerType.STORE
-
-        val marker3 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION3)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.CLINIC,
-                com.pawpals.petpilot.R.drawable.medical_services_18))
-            .title("Vet Services"))
-        marker3?.tag = MarkerType.CLINIC
-
-        val marker4 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION4)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.EVENT,
-                com.pawpals.petpilot.R.drawable.events_18))
-            .title("Poodle Romp"))
-        marker4?.tag = MarkerType.EVENT
-
-        val marker5 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION5)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.OUTDOOR,
-                com.pawpals.petpilot.R.drawable.outdoors_18))
-            .title("Charleston Park"))
-        marker5?.tag = MarkerType.OUTDOOR
-
-        val marker6 = map.addMarker(MarkerOptions()
-            .position(DEFAULT_LOCATION6)
-            .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(),
-                MarkerType.RESTAURANT,
-                com.pawpals.petpilot.R.drawable.restaurant_18))
-            .title("Be My Mate"))
-        marker6?.tag = MarkerType.RESTAURANT
-
-        placesList.add(marker)
-        placesList.add(marker1)
-        placesList.add(marker2)
-        placesList.add(marker3)
-        placesList.add(marker4)
-        placesList.add(marker5)
-        placesList.add(marker6)
+        var counter = 0
+        dataList.forEach {dataModel ->
+            val marker = map.addMarker(MarkerOptions()
+                .position(dataModel.location)
+                .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(), dataModel.type))
+                .title(dataModel.title))
+            marker?.tag = dataModel.type
+            placesMap[marker] = counter
+            counter += 1
+        }
 
         // Prompt the user for permission.
         getLocationPermission()
@@ -164,30 +113,21 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
             requireActivity().applicationContext)
     }
 
-    /** Called when the user clicks a marker.  */
     override fun onMarkerClick(marker: Marker): Boolean {
+        val parentView = view?.rootView
+        val rv = parentView?.findViewById<RecyclerView>(R.id.card_rv)
+        val layoutManager = rv?.layoutManager as LinearLayoutManager
 
-        // Retrieve the data from the marker.
-        val markerType = marker.tag as? MarkerType
-
-        // Check if a click count was set, then display the click count.
-        var toastText = ""
-        markerType?.let { type ->
-            toastText = when(type) {
-                MarkerType.OUTDOOR -> MarkerType.OUTDOOR.toString()
-                MarkerType.STORE -> MarkerType.STORE.toString()
-                MarkerType.RESTAURANT -> MarkerType.RESTAURANT.toString()
-                MarkerType.CLINIC -> MarkerType.CLINIC.toString()
-                MarkerType.EVENT -> MarkerType.EVENT.toString()
+        val offset = view?.width?.minus(800)?.div(2)
+        placesMap[marker]?.let {
+            if (offset != null) {
+                layoutManager.scrollToPositionWithOffset(it, offset)
             }
         }
-
-//        Toast.makeText(
-//            requireContext(),
-//            toastText,
-//            Toast.LENGTH_SHORT
-//        ).show()
-//        Log.d("CUDDLE CAFE", toastText)
+        rv.let {
+            val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(rv)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
 
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
@@ -267,14 +207,6 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
 
     companion object {
         private val DEFAULT_LOCATION = LatLng(37.414728, -122.0811)
-        private val DEFAULT_LOCATION1 = LatLng(37.416856, -122.089430)
-        private val DEFAULT_LOCATION2 = LatLng(37.415129, -122.077435)
-        private val DEFAULT_LOCATION3 = LatLng(37.415034, -122.086125)
-        private val DEFAULT_LOCATION4 = LatLng(37.416884, -122.077306)
-        private val DEFAULT_LOCATION5 = LatLng(37.422029, -122.081691)
-        private val DEFAULT_LOCATION6 = LatLng(37.421892, -122.084804)
-
-
         private const val DEFAULT_ZOOM = 15
 
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
