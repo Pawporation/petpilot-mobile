@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -15,8 +14,7 @@ object MapMarkerUtil {
 
     fun bitmapDescriptorFromVector(
         context: Context,
-        markerType: MarkerType,
-        @DrawableRes vectorDrawableResourceId: Int
+        markerType: MarkerType
     ): BitmapDescriptor? {
         val background: Drawable? =
             ContextCompat.getDrawable(context, com.pawpals.petpilot.R.drawable.pawprint_48)
@@ -27,6 +25,14 @@ object MapMarkerUtil {
             MarkerType.CLINIC -> context.getColor(com.pawpals.petpilot.R.color.medical)
             MarkerType.RESTAURANT -> context.getColor(com.pawpals.petpilot.R.color.restaurants)
             MarkerType.EVENT -> context.getColor(com.pawpals.petpilot.R.color.events)
+        }
+
+        val vectorDrawableResourceId = when(markerType) {
+            MarkerType.OUTDOOR -> com.pawpals.petpilot.R.drawable.outdoors_18
+            MarkerType.STORE -> com.pawpals.petpilot.R.drawable.store_18
+            MarkerType.CLINIC -> com.pawpals.petpilot.R.drawable.medical_services_18
+            MarkerType.RESTAURANT -> com.pawpals.petpilot.R.drawable.restaurant_18
+            MarkerType.EVENT -> com.pawpals.petpilot.R.drawable.events_18
         }
 
         if (background != null) {
@@ -57,5 +63,9 @@ object MapMarkerUtil {
         }
 
         return bitmap?.let { BitmapDescriptorFactory.fromBitmap(it) }
+    }
+
+    fun constructTag(markerType: MarkerType, index: Int) : String {
+        return "$markerType:$index"
     }
 }
