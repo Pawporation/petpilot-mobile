@@ -5,27 +5,29 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.gms.maps.model.Marker
-import com.google.android.material.textview.MaterialTextView
-import com.pawporation.petpilot.android.R
-import com.pawporation.petpilot.models.MarkerType
-import com.pawporation.petpilot.models.PawRating
-import com.pawporation.petpilot.ui.details.CardDataAdapter
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.textview.MaterialTextView
+import com.pawporation.petpilot.android.R
+import com.pawporation.petpilot.models.MarkerType
 import com.pawporation.petpilot.models.PawDataModel
+import com.pawporation.petpilot.models.PawRating
+import com.pawporation.petpilot.ui.details.CardDataAdapter
+import com.pawporation.petpilot.ui.filter.FilterFragment
+import com.pawporation.petpilot.ui.map.MapFragment
+import com.pawporation.petpilot.ui.search.SearchFragment
 
 open class ExploreFragment : Fragment() {
 
-    protected val dataList: ArrayList<PawDataModel> = ArrayList()
-    companion object {
-        @JvmStatic
-        protected var indexToMarkerMapping = mutableMapOf<Int, Marker?>()
-        @JvmStatic
-        protected var markerToIndexMapping = mutableMapOf<Marker?, Int>()
-    }
+    private val dataList: ArrayList<PawDataModel> = ArrayList()
+    private val indexToMarkerMapping = HashMap<Int, Marker?>()
+    private val markerToIndexMapping = HashMap<Marker?, Int>()
+    private val markerToPawDataMapping = HashMap<Marker?, PawDataModel>()
+    private lateinit var cardDataAdapter: CardDataAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +66,7 @@ open class ExploreFragment : Fragment() {
             MarkerType.RESTAURANT, "Be My Mate", PawRating.FOUR_PAW, ""))
 
         // we are initializing our adapter class and passing our arraylist to it.
-        val cardDataAdapter = CardDataAdapter(dataList)
+        cardDataAdapter = CardDataAdapter(dataList)
 
         // below line is for setting a layout manager for our recycler view.
         // here we are creating vertical list so we will provide orientation as vertical
@@ -80,6 +82,21 @@ open class ExploreFragment : Fragment() {
             val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(cardDataRV)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
+
+        insertChildFragments()
+    }
+
+    // Embeds the child fragment dynamically
+    open fun insertChildFragments() {
+        val mapFragment: Fragment = MapFragment(
+            dataList, indexToMarkerMapping, markerToIndexMapping, markerToPawDataMapping)
+        val filterFragment: Fragment = FilterFragment(
+            markerToIndexMapping, markerToPawDataMapping, cardDataAdapter)
+        val searchFragment: Fragment = SearchFragment()
+        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
+        transaction.replace(R.id.explore_fragment_map, mapFragment)
+        transaction.replace(R.id.explore_fragment_filter, filterFragment)
+        transaction.replace(R.id.explore_fragment_search, searchFragment).commit()
     }
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
@@ -104,7 +121,26 @@ open class ExploreFragment : Fragment() {
         val currText = textView.text
 
         markerToIndexMapping.forEach { entry ->
-            entry.key!!.isVisible = currText == selectAll
+            if (currText == selectAll) {
+                if (!entry.key!!.isVisible) {
+                    entry.key!!.isVisible = true
+                    markerToPawDataMapping[entry.key]?.let {
+                        cardDataAdapter.pawDataModelArrayList.add(
+                            it
+                        )
+                    }
+                }
+
+            } else {
+                if (entry.key!!.isVisible) {
+                    entry.key!!.isVisible = false
+                    cardDataAdapter.pawDataModelArrayList.remove(markerToPawDataMapping[entry.key])
+                }
+            }
+        }
+
+        cardDataAdapter.run {
+            notifyDataSetChanged()
         }
 
         textView.text = when (currText) {

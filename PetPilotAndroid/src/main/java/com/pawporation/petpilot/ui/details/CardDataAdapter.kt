@@ -10,7 +10,7 @@ import com.pawporation.petpilot.models.PawDataModel
 
 class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
     RecyclerView.Adapter<CardDataAdapter.ViewHolder>() {
-    private val pawDataModelArrayList: ArrayList<PawDataModel>
+    val pawDataModelArrayList: ArrayList<PawDataModel>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // to inflate the layout for each item of recycler view.
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_details, parent, false)
@@ -18,7 +18,6 @@ class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // to set data to textview and imageview of each card layout
         val model: PawDataModel = pawDataModelArrayList[position]
         holder.cardText.text = model.getInfo()
     }

@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.pawporation.petpilot.ui.explore.ExploreFragment">
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/explore_fragment_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.pawporation.petpilot.ui.map.MapFragment" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/explore_fragment_opaque"
         android:layout_width="match_parent"
         android:layout_height="190dp"
@@ -22,7 +22,7 @@
         android:background="@color/gray"
         android:alpha="0.5" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/explore_fragment_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="@id/explore_fragment_opaque" />
 
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/explore_fragment_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -25,10 +26,14 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 import com.pawporation.petpilot.android.R
-import com.pawporation.petpilot.ui.explore.ExploreFragment
+import com.pawporation.petpilot.models.PawDataModel
 import com.pawporation.petpilot.utils.MapMarkerUtil
 
-class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
+class MapFragment(private val dataList: ArrayList<PawDataModel>,
+                  private val indexToMarkerMapping: HashMap<Int, Marker?>,
+                  private val markerToIndexMapping: HashMap<Marker?, Int>,
+                  private val markerToPawDataMapping: HashMap<Marker?, PawDataModel>) :
+    Fragment(), GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
 
@@ -80,6 +85,7 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
             marker?.tag = dataModel.type
             indexToMarkerMapping[counter] = marker
             markerToIndexMapping[marker] = counter
+            markerToPawDataMapping[marker] = dataModel
             counter += 1
         }
 

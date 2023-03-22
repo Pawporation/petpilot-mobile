@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.Fragment
+import com.google.android.gms.maps.model.Marker
 import com.pawporation.petpilot.android.R
-import com.pawporation.petpilot.ui.explore.ExploreFragment
 import com.pawporation.petpilot.models.MarkerType
+import com.pawporation.petpilot.models.PawDataModel
+import com.pawporation.petpilot.ui.details.CardDataAdapter
 
 
-class FilterFragment : ExploreFragment() {
+class FilterFragment(private val markerToIndexMapping: HashMap<Marker?, Int>,
+                     private val markerToPawDataMapping: HashMap<Marker?, PawDataModel>,
+                     private val cardDataAdapter: CardDataAdapter) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +54,23 @@ class FilterFragment : ExploreFragment() {
         }
 
         markerToIndexMapping.forEach { entry ->
-            if (tag == entry.key!!.tag) entry.key!!.isVisible = !entry.key!!.isVisible
+            if (tag == entry.key!!.tag) {
+                if (entry.key!!.isVisible) {
+                    cardDataAdapter.pawDataModelArrayList.remove(markerToPawDataMapping[entry.key])
+                } else {
+                    markerToPawDataMapping[entry.key]?.let {
+                        cardDataAdapter.pawDataModelArrayList.add(entry.value,
+                            it
+                        )
+                    }
+                }
+                entry.key!!.isVisible = !entry.key!!.isVisible
+            }
         }
+
+        cardDataAdapter.run {
+            notifyDataSetChanged()
+        }
+
     }
 }
