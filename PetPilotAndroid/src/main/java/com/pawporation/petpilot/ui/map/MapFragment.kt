@@ -78,7 +78,8 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
                 .icon(MapMarkerUtil.bitmapDescriptorFromVector(requireContext(), dataModel.type))
                 .title(dataModel.title))
             marker?.tag = dataModel.type
-            placesMap[marker] = counter
+            indexToMarkerMapping[counter] = marker
+            markerToIndexMapping[marker] = counter
             counter += 1
         }
 
@@ -119,9 +120,9 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
         val layoutManager = rv?.layoutManager as LinearLayoutManager
 
         val offset = view?.width?.minus(800)?.div(2)
-        placesMap[marker]?.let {
+        markerToIndexMapping[marker]?.let {index ->
             if (offset != null) {
-                layoutManager.scrollToPositionWithOffset(it, offset)
+                layoutManager.scrollToPositionWithOffset(index, offset)
             }
         }
         rv.let {
@@ -129,10 +130,12 @@ class MapFragment : ExploreFragment(), GoogleMap.OnMarkerClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
+        marker.showInfoWindow()
+
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur (which is for the camera to move such that the
         // marker is centered and for the marker's info window to open, if it has one).
-        return false
+        return true
     }
 
     private fun getDeviceLocation() {
