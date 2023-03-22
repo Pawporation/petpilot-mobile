@@ -20,7 +20,12 @@ import com.pawporation.petpilot.models.PawDataModel
 open class ExploreFragment : Fragment() {
 
     protected val dataList: ArrayList<PawDataModel> = ArrayList()
-    protected var placesMap = mutableMapOf<Marker?, Int>()
+    companion object {
+        @JvmStatic
+        protected var indexToMarkerMapping = mutableMapOf<Int, Marker?>()
+        @JvmStatic
+        protected var markerToIndexMapping = mutableMapOf<Marker?, Int>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,10 +74,26 @@ open class ExploreFragment : Fragment() {
         // in below two lines we are setting layoutmanager and adapter to our recycler view.
         cardDataRV?.layoutManager = linearLayoutManager
         cardDataRV?.adapter = cardDataAdapter
+        cardDataRV?.addOnScrollListener(scrollListener)
 
         cardDataRV?.let {
             val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(cardDataRV)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val lastCompletelyVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+            val lastVisible = layoutManager.findLastVisibleItemPosition()
+            val indexValue = if (lastCompletelyVisible == -1) lastVisible else lastCompletelyVisible
+
+            // Highlight the marker
+            val marker = indexToMarkerMapping[indexValue]
+            marker?.showInfoWindow()
         }
     }
 
@@ -82,7 +103,7 @@ open class ExploreFragment : Fragment() {
         val textView = view as MaterialTextView
         val currText = textView.text
 
-        placesMap.forEach { entry ->
+        markerToIndexMapping.forEach { entry ->
             entry.key!!.isVisible = currText == selectAll
         }
 
@@ -93,5 +114,10 @@ open class ExploreFragment : Fragment() {
                 ""
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dataList.clear()
     }
 }
