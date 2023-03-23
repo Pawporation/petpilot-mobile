@@ -20,6 +20,7 @@ class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model: PawDataModel = pawDataModelArrayList[position]
         holder.cardText.text = model.getInfo()
+        holder.itemView.tag = model.uniqueID
     }
 
     override fun getItemCount(): Int {

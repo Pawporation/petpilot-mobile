@@ -32,7 +32,9 @@ import com.pawporation.petpilot.utils.MapMarkerUtil
 class MapFragment(private val dataList: ArrayList<PawDataModel>,
                   private val indexToMarkerMapping: HashMap<Int, Marker?>,
                   private val markerToIndexMapping: HashMap<Marker?, Int>,
-                  private val markerToPawDataMapping: HashMap<Marker?, PawDataModel>) :
+                  private val markerToPawDataMapping: HashMap<Marker?, PawDataModel>,
+                  private val uniqueIdToMarkerMapping: HashMap<String, Marker?>,
+                  private val markerToUniqueIdMapping: HashMap<Marker?, String>) :
     Fragment(), GoogleMap.OnMarkerClickListener {
 
     private var map: GoogleMap? = null
@@ -86,6 +88,8 @@ class MapFragment(private val dataList: ArrayList<PawDataModel>,
             indexToMarkerMapping[counter] = marker
             markerToIndexMapping[marker] = counter
             markerToPawDataMapping[marker] = dataModel
+            uniqueIdToMarkerMapping[dataModel.uniqueID] = marker
+            markerToUniqueIdMapping[marker] = dataModel.uniqueID
             counter += 1
         }
 
@@ -125,11 +129,19 @@ class MapFragment(private val dataList: ArrayList<PawDataModel>,
         val rv = parentView?.findViewById<RecyclerView>(R.id.card_rv)
         val layoutManager = rv?.layoutManager as LinearLayoutManager
 
-        val offset = view?.width?.minus(800)?.div(2)
-        markerToIndexMapping[marker]?.let {index ->
-            if (offset != null) {
-                layoutManager.scrollToPositionWithOffset(index, offset)
+        var position = 0
+        val uniqueId = markerToUniqueIdMapping[marker]
+        for (i in 0 until dataList.size) {
+            if (dataList[i].uniqueID == uniqueId) {
+                position = i
+                break
             }
+        }
+
+        val offset = view?.width?.minus(800)?.div(2)
+
+        if (offset != null) {
+            layoutManager.scrollToPositionWithOffset(position, offset)
         }
         rv.let {
             val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(rv)
