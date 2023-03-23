@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,8 @@ open class ExploreFragment : Fragment() {
     private val indexToMarkerMapping = HashMap<Int, Marker?>()
     private val markerToIndexMapping = HashMap<Marker?, Int>()
     private val markerToPawDataMapping = HashMap<Marker?, PawDataModel>()
+    private val uniqueIdToMarkerMapping = HashMap<String, Marker?>()
+    private val markerToUniqueIdMapping = HashMap<Marker?, String>()
     private lateinit var cardDataAdapter: CardDataAdapter
 
     override fun onCreateView(
@@ -50,19 +53,19 @@ open class ExploreFragment : Fragment() {
         val cardDataRV = view.findViewById<RecyclerView>(R.id.card_rv)
 
         // Here, we have created new array list and added data to it
-        dataList.add(PawDataModel(LatLng(37.414728, -122.0811),
+        dataList.add(PawDataModel("1", LatLng(37.414728, -122.0811),
             MarkerType.RESTAURANT, "Cuddle Cafe", PawRating.FOUR_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.416856, -122.089430),
+        dataList.add(PawDataModel("2", LatLng(37.416856, -122.089430),
             MarkerType.OUTDOOR, "Sierra Vista Park", PawRating.THREE_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.415129, -122.077435),
+        dataList.add(PawDataModel("3", LatLng(37.415129, -122.077435),
             MarkerType.STORE, "CBG", PawRating.FOUR_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.415034, -122.086125),
+        dataList.add(PawDataModel("4", LatLng(37.415034, -122.086125),
             MarkerType.CLINIC, "Vet Pet", PawRating.TWO_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.416884, -122.077306),
+        dataList.add(PawDataModel("5", LatLng(37.416884, -122.077306),
             MarkerType.EVENT, "Poodle Romp", PawRating.FOUR_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.422029, -122.081691),
+        dataList.add(PawDataModel("6", LatLng(37.422029, -122.081691),
             MarkerType.OUTDOOR, "Charleston Park", PawRating.ONE_PAW, ""))
-        dataList.add(PawDataModel(LatLng(37.421892, -122.084804),
+        dataList.add(PawDataModel("7", LatLng(37.421892, -122.084804),
             MarkerType.RESTAURANT, "Be My Mate", PawRating.FOUR_PAW, ""))
 
         // we are initializing our adapter class and passing our arraylist to it.
@@ -89,7 +92,8 @@ open class ExploreFragment : Fragment() {
     // Embeds the child fragment dynamically
     open fun insertChildFragments() {
         val mapFragment: Fragment = MapFragment(
-            dataList, indexToMarkerMapping, markerToIndexMapping, markerToPawDataMapping)
+            dataList, indexToMarkerMapping, markerToIndexMapping,
+            markerToPawDataMapping, uniqueIdToMarkerMapping, markerToUniqueIdMapping)
         val filterFragment: Fragment = FilterFragment(
             markerToIndexMapping, markerToPawDataMapping, cardDataAdapter)
         val searchFragment: Fragment = SearchFragment()
@@ -107,9 +111,9 @@ open class ExploreFragment : Fragment() {
             val lastCompletelyVisible = layoutManager.findLastCompletelyVisibleItemPosition()
             val lastVisible = layoutManager.findLastVisibleItemPosition()
             val indexValue = if (lastCompletelyVisible == -1) lastVisible else lastCompletelyVisible
-
+            val itemTag = recyclerView.findViewHolderForAdapterPosition(indexValue)?.itemView?.tag
             // Highlight the marker
-            val marker = indexToMarkerMapping[indexValue]
+            val marker = uniqueIdToMarkerMapping[itemTag]
             marker?.showInfoWindow()
         }
     }
