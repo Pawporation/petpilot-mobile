@@ -59,9 +59,7 @@ class FilterFragment(private val markerToIndexMapping: HashMap<Marker?, Int>,
                     cardDataAdapter.pawDataModelArrayList.remove(markerToPawDataMapping[entry.key])
                 } else {
                     markerToPawDataMapping[entry.key]?.let {
-                        cardDataAdapter.pawDataModelArrayList.add(entry.value,
-                            it
-                        )
+                        cardDataAdapter.pawDataModelArrayList.add(it)
                     }
                 }
                 entry.key!!.isVisible = !entry.key!!.isVisible

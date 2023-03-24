@@ -54,19 +54,19 @@ open class ExploreFragment : Fragment() {
 
         // Here, we have created new array list and added data to it
         dataList.add(PawDataModel("1", LatLng(37.414728, -122.0811),
-            MarkerType.RESTAURANT, "Cuddle Cafe", PawRating.FOUR_PAW, ""))
+            MarkerType.RESTAURANT, "Cuddle Cafe", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.cuddle_cafe))
         dataList.add(PawDataModel("2", LatLng(37.416856, -122.089430),
-            MarkerType.OUTDOOR, "Sierra Vista Park", PawRating.THREE_PAW, ""))
+            MarkerType.OUTDOOR, "Sierra Vista Park", PawRating.THREE_PAW, com.pawpals.petpilot.R.mipmap.sierra_vista_park))
         dataList.add(PawDataModel("3", LatLng(37.415129, -122.077435),
-            MarkerType.STORE, "CBG", PawRating.FOUR_PAW, ""))
+            MarkerType.STORE, "CBG", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.cbg))
         dataList.add(PawDataModel("4", LatLng(37.415034, -122.086125),
-            MarkerType.CLINIC, "Vet Pet", PawRating.TWO_PAW, ""))
+            MarkerType.CLINIC, "Vet Pet", PawRating.TWO_PAW, com.pawpals.petpilot.R.mipmap.vet))
         dataList.add(PawDataModel("5", LatLng(37.416884, -122.077306),
-            MarkerType.EVENT, "Poodle Romp", PawRating.FOUR_PAW, ""))
+            MarkerType.EVENT, "Poodle Romp", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.poodle_romp))
         dataList.add(PawDataModel("6", LatLng(37.422029, -122.081691),
-            MarkerType.OUTDOOR, "Charleston Park", PawRating.ONE_PAW, ""))
+            MarkerType.OUTDOOR, "Charleston Park", PawRating.ONE_PAW, com.pawpals.petpilot.R.mipmap.charleston_park))
         dataList.add(PawDataModel("7", LatLng(37.421892, -122.084804),
-            MarkerType.RESTAURANT, "Be My Mate", PawRating.FOUR_PAW, ""))
+            MarkerType.RESTAURANT, "Be My Mate", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.be_my_mate))
 
         // we are initializing our adapter class and passing our arraylist to it.
         cardDataAdapter = CardDataAdapter(dataList)
