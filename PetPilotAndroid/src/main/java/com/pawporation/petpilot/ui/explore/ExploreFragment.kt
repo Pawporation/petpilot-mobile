@@ -119,8 +119,14 @@ open class ExploreFragment : Fragment() {
     }
 
     private var cardOnClickListener: View.OnClickListener = View.OnClickListener { view ->
+        val bundle = Bundle()
+        val clickedItem = dataList[view.tag.toString().toInt() - 1]
+        bundle.putString("pawDataTitle", clickedItem.title)
+
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container_main, DetailsFragment())
+        val detailsFragment = DetailsFragment()
+        detailsFragment.arguments = bundle
+        transaction.replace(R.id.container_main, detailsFragment)
         transaction.disallowAddToBackStack()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         transaction.commit()
