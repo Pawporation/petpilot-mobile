@@ -2,6 +2,7 @@ package com.pawporation.petpilot.ui.details
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pawporation.petpilot.android.R
 import com.pawporation.petpilot.models.PawDataModel
 
-class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
+class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>, cardOnClickListener: OnClickListener) :
     RecyclerView.Adapter<CardDataAdapter.ViewHolder>() {
     val pawDataModelArrayList: ArrayList<PawDataModel>
+    val cardOnClickListener: OnClickListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // to inflate the layout for each item of recycler view.
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_details, parent, false)
@@ -40,6 +42,8 @@ class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
         if (pawRating > 3) {
             holder.pawRatingFour.visibility = View.VISIBLE
         }
+
+        holder.itemView.setOnClickListener(cardOnClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -68,5 +72,6 @@ class CardDataAdapter(pawDataModelArrayList: ArrayList<PawDataModel>) :
     // Constructor
     init {
         this.pawDataModelArrayList = pawDataModelArrayList
+        this.cardOnClickListener = cardOnClickListener
     }
 }
