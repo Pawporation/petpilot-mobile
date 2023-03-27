@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pawporation.petpilot.android.R
@@ -30,10 +31,12 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val detailView = view.findViewById<LinearLayout>(R.id.bottom_sheet_details)
-
         detailView?.let {
             val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(detailView)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+        val detailsTitle = view.findViewById<TextView>(R.id.details_title)
+        detailsTitle.text = arguments?.getString("pawDataTitle")
     }
 }
