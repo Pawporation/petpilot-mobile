@@ -17,7 +17,6 @@ import com.pawporation.petpilot.models.MarkerType
 import com.pawporation.petpilot.models.PawDataModel
 import com.pawporation.petpilot.models.PawRating
 import com.pawporation.petpilot.ui.details.CardDataAdapter
-import com.pawporation.petpilot.ui.details.DetailsFragment
 import com.pawporation.petpilot.ui.filter.FilterFragment
 import com.pawporation.petpilot.ui.map.MapFragment
 import com.pawporation.petpilot.ui.search.SearchFragment
@@ -69,7 +68,7 @@ open class ExploreFragment : Fragment() {
             MarkerType.RESTAURANT, "Be My Mate", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.be_my_mate))
 
         // we are initializing our adapter class and passing our arraylist to it.
-        cardDataAdapter = CardDataAdapter(dataList, cardOnClickListener)
+        cardDataAdapter = CardDataAdapter(dataList)
 
         // below line is for setting a layout manager for our recycler view.
         // here we are creating vertical list so we will provide orientation as vertical
@@ -116,20 +115,6 @@ open class ExploreFragment : Fragment() {
             val marker = uniqueIdToMarkerMapping[itemTag]
             marker?.showInfoWindow()
         }
-    }
-
-    private var cardOnClickListener: View.OnClickListener = View.OnClickListener { view ->
-        val bundle = Bundle()
-        val clickedItem = dataList[view.tag.toString().toInt() - 1]
-        bundle.putString("pawDataTitle", clickedItem.title)
-
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        val detailsFragment = DetailsFragment()
-        detailsFragment.arguments = bundle
-        transaction.replace(R.id.container_main, detailsFragment)
-        transaction.disallowAddToBackStack()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        transaction.commit()
     }
 
     private var selection: View.OnClickListener = View.OnClickListener { view ->

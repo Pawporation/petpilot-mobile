@@ -34,6 +34,7 @@ class DetailsFragment : Fragment() {
         detailView?.let {
             val bottomSheetBehavior: BottomSheetBehavior<View> = BottomSheetBehavior.from(detailView)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.skipCollapsed = true
         }
 
         val detailsTitle = view.findViewById<TextView>(R.id.details_title)
