@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.pawporation.petpilot.android.R
 import com.pawporation.petpilot.android.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -30,10 +31,10 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textProfile
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        val textView: TextView = binding.textProfile
+//        notificationsViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
 
         return root
     }
@@ -44,6 +45,9 @@ class ProfileFragment : Fragment() {
         val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar
         supportActionBar?.setShowHideAnimationEnabled(false)
         supportActionBar?.show()
+
+        val imgView: ImageView = binding.profileImg
+        imgView.setImageResource(com.pawpals.petpilot.R.mipmap.prosper_foreground)
     }
 
     override fun onDestroyView() {
