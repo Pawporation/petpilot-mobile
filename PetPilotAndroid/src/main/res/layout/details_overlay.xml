@@ -11,18 +11,80 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/detailView_rv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/detailView_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="HELLLOOOOO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="375dp"
+        android:layout_marginStart="25dp"
         android:textColor="@color/quantum_black_100"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/detailView_icons_rv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="430dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/off_leash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Off-Leash"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="20dp"
+            android:background="@drawable/bg_oval" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+        <TextView
+            android:id="@+id/quiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quiet"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="20dp"
+            android:background="@drawable/bg_oval" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+        <TextView
+            android:id="@+id/full_access"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full-Access"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="20dp"
+            android:background="@drawable/bg_oval" />
+
+    </LinearLayout>
 
 </RelativeLayout>
