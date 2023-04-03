@@ -53,7 +53,7 @@ open class ExploreFragment : Fragment() {
 
         // Here, we have created new array list and added data to it
         dataList.add(PawDataModel("1", LatLng(37.414728, -122.0811),
-            MarkerType.RESTAURANT, "Cuddle Cafe", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.cuddle_cafe))
+            MarkerType.RESTAURANT, "Fiddle Fig", PawRating.FOUR_PAW, com.pawpals.petpilot.R.mipmap.cuddle_cafe))
         dataList.add(PawDataModel("2", LatLng(37.416856, -122.089430),
             MarkerType.OUTDOOR, "Sierra Vista Park", PawRating.THREE_PAW, com.pawpals.petpilot.R.mipmap.sierra_vista_park))
         dataList.add(PawDataModel("3", LatLng(37.415129, -122.077435),
