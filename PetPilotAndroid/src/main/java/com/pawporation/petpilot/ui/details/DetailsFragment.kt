@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.pawporation.petpilot.android.R
 import com.pawporation.petpilot.android.databinding.FragmentDetailsBinding
+import com.pawporation.petpilot.models.ReviewModel
 
 
 class DetailsFragment : Fragment() {
@@ -57,5 +58,22 @@ class DetailsFragment : Fragment() {
 
         val textView = view.findViewById<TextView>(R.id.detailView_title)
         textView.text = arguments?.getString("pawDataTitle")
+
+        val rm1 = ReviewModel("mightyDonut", "April 2, 2023",
+            "This place is so dog-friendly! " +
+                    "All the staff is really nice and they even offered Prosper (my dog) some dog treats!")
+
+        val rm2 = ReviewModel("misterFerg", "March 30, 2023",
+            "After my daily cycles with my dog, we always find ourselves hungry for more. " +
+                    "Fiddle Fig is our go-to for satisfying our voracious appetites from the arduous workout.")
+
+        val reviewsList = listOf(rm1, rm2)
+
+        val reviewsAdapter = ReviewsDataAdapter(reviewsList)
+        val lm = LinearLayoutManager(requireContext(),
+            LinearLayoutManager.VERTICAL, false)
+        val reviewsRV = view.findViewById<RecyclerView>(R.id.detailView_reviews_rv)
+        reviewsRV?.layoutManager = lm
+        reviewsRV?.adapter = reviewsAdapter
     }
 }
