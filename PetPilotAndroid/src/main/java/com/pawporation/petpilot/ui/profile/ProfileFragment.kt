@@ -9,8 +9,13 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pawporation.petpilot.android.R
 import com.pawporation.petpilot.android.databinding.FragmentProfileBinding
+import com.pawporation.petpilot.models.ReviewModel
+import com.pawporation.petpilot.models.TimelineModel
+import com.pawporation.petpilot.ui.details.ReviewsDataAdapter
 
 class ProfileFragment : Fragment() {
 
@@ -48,6 +53,21 @@ class ProfileFragment : Fragment() {
 
         val imgView: ImageView = binding.profileImg
         imgView.setImageResource(com.pawpals.petpilot.R.mipmap.prosper_foreground)
+
+        val timeline1 = TimelineModel("Vet", "April 2, 2023",
+            "Prosper is healthy and is now 36 pounds!")
+
+        val timeline2 = TimelineModel("Dog Beach", "March 30, 2023",
+            "Made some new doggo friends")
+
+        val timelineList = listOf(timeline1, timeline2)
+
+        val timelineDataAdapter = TimelineDataAdapter(timelineList)
+        val lm = LinearLayoutManager(requireContext(),
+            LinearLayoutManager.VERTICAL, false)
+        val timelineRV = view.findViewById<RecyclerView>(R.id.profileView_timeline_rv)
+        timelineRV?.layoutManager = lm
+        timelineRV?.adapter = timelineDataAdapter
     }
 
     override fun onDestroyView() {
